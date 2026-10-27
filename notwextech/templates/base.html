@@ -1,0 +1,673 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Notwex Technologies | Smart Digital Solutions{% endblock %}</title>
+
+    <meta name="description"
+          content="{% block meta_description %}Notwex Technologies builds professional websites and custom software solutions for businesses in Tanzania and worldwide.{% endblock %}">
+
+    <meta name="theme-color" content="#070B14">
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script src="{% static 'js/javascript.js' %}" defer></script>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="site-header">
+        <div class="navbar container">
+
+            <a href="{% url 'home' %}" class="brand" aria-label="Notwex Technologies home">
+                <span class="brand-symbol">N</span>
+
+                <span class="brand-text">
+                    <strong>NOTWEX</strong>
+                    <small>TECHNOLOGIES</small>
+                </span>
+            </a>
+
+            <button class="menu-toggle"
+                    type="button"
+                    aria-label="Open navigation menu"
+                    aria-controls="primary-navigation"
+                    aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="navigation" id="primary-navigation"
+                 aria-label="Main navigation">
+
+                <a href="{% url 'home' %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+                    Home
+                </a>
+
+                <a href="{% url 'about' %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                    About
+                </a>
+
+                <a href="{% url 'services' %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}">
+                    Services
+                </a>
+
+                <a href="{% url 'portfolio' %}"
+                   class="nav-link {% if request.resolver_match.url_name == 'portfolio' %}active{% endif %}">
+                    Portfolio
+                </a>
+
+                <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+
+                <a href="#" class="nav-cta" data-open-project-modal>
+                    Start a Project
+                    <span aria-hidden="true">↗</span>
+                </a>
+            </nav>
+
+        </div>
+    </header>
+
+    <!-- Start a Project Modal -->
+<div class="project-modal" id="projectModal" aria-hidden="true">
+
+    <div class="project-modal-overlay"
+         data-close-project-modal></div>
+
+    <div class="project-modal-content"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="projectModalTitle">
+
+        <button type="button"
+                class="project-modal-close"
+                data-close-project-modal
+                aria-label="Close popup">
+            &times;
+        </button>
+
+        <div class="project-modal-heading">
+            <span class="project-modal-label">
+                LET'S BUILD SOMETHING GREAT
+            </span>
+
+            <h2 id="projectModalTitle">
+                Start Your Project
+            </h2>
+
+            <p>
+                Have an idea? Tell us about your project.
+                Our team will get in touch to discuss your needs.
+            </p>
+        </div>
+
+        <form method="post"
+              action="{% url 'submit_project_inquiry' %}"
+              id="projectInquiryForm">
+
+            {% csrf_token %}
+
+            <div class="project-form-grid">
+
+                <div class="project-form-group">
+                    <label for="projectName">Full Name *</label>
+                    <input type="text"
+                           id="projectName"
+                           name="name"
+                           placeholder="Enter your full name"
+                           autocomplete="name"
+                           required>
+                </div>
+
+                <div class="project-form-group">
+                    <label for="projectEmail">Email Address *</label>
+                    <input type="email"
+                           id="projectEmail"
+                           name="email"
+                           placeholder="you@example.com"
+                           autocomplete="email"
+                           required>
+                </div>
+
+                <div class="project-form-group">
+                    <label for="projectPhone">Phone / WhatsApp</label>
+                    <input type="tel"
+                           id="projectPhone"
+                           name="phone"
+                           placeholder="+255..."
+                           autocomplete="tel">
+                </div>
+
+                <div class="project-form-group">
+                    <label for="projectCompany">Company Name</label>
+                    <input type="text"
+                           id="projectCompany"
+                           name="company"
+                           placeholder="Company name (optional)"
+                           autocomplete="organization">
+                </div>
+
+                <div class="project-form-group">
+                    <label for="projectService">Service Needed *</label>
+                    <select id="projectService"
+                            name="service"
+                            required>
+                        <option value="">Select a service</option>
+                        <option value="website">Website Development</option>
+                        <option value="software">Custom Software / Django System</option>
+                        <option value="ecommerce">E-Commerce Website</option>
+                        <option value="mobile">Mobile Application</option>
+                        <option value="consulting">IT Consulting</option>
+                        <option value="other">Other Technology Service</option>
+                    </select>
+                </div>
+
+                <div class="project-form-group">
+                    <label for="projectTimeline">Project Timeline</label>
+                    <select id="projectTimeline" name="timeline">
+                        <option value="">Choose a timeline</option>
+                        <option value="Immediately">Immediately</option>
+                        <option value="Within 2 weeks">Within 2 weeks</option>
+                        <option value="Within 1 month">Within 1 month</option>
+                        <option value="Within 3 months">Within 3 months</option>
+                        <option value="Flexible">Flexible</option>
+                    </select>
+                </div>
+
+                <div class="project-form-group project-form-full">
+                    <label for="projectDescription">
+                        Project Description *
+                    </label>
+                    <textarea id="projectDescription"
+                              name="project_description"
+                              rows="4"
+                              placeholder="Describe your idea, objectives, and the features you need..."
+                              required></textarea>
+                </div>
+
+            </div>
+
+            <button type="submit" class="project-submit-btn">
+                <span>Send Project Request</span>
+                <span class="submit-arrow">↗</span>
+            </button>
+
+            <p class="project-form-note">
+                Your information will be used to respond to your inquiry.
+            </p>
+
+        </form>
+    </div>
+</div>
+    <!-- Page-specific content -->
+    <main id="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-main container">
+
+            <div class="footer-brand">
+                <a href="{% url 'home' %}" class="brand">
+                    <span class="brand-symbol">N</span>
+
+                    <span class="brand-text">
+                        <strong>NOTWEX</strong>
+                        <small>TECHNOLOGIES</small>
+                    </span>
+                </a>
+
+                <p>
+                    Building smart digital solutions for businesses
+                    in Tanzania and around the world. We transform
+                    ideas into useful, reliable technology.
+                </p>
+
+                <a href="{% url 'contact' %}" class="footer-contact-link">
+                    Let's discuss your project <span>↗</span>
+                </a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'about' %}">About Us</a>
+                <a href="{% url 'services' %}">Our Services</a>
+                <a href="{% url 'portfolio' %}">Our Portfolio</a>
+                <a href="{% url 'contact' %}">Contact Us</a>
+            </div>
+
+            <div class="footer-column">
+                <h3>Our Services</h3>
+                <a href="{% url 'website_development' %}">Website Development</a>
+                <a href="{% url 'custom_software' %}">Custom Django Software</a>
+                <a href="{% url 'ecommerce_solutions' %}">Business Management Systems</a>
+                <a href="{% url 'website_development' %}">Web Applications</a>
+                <a href="{% url 'it_consulting' %}">IT Consultation</a>
+            </div>
+
+            <div class="footer-column footer-contact">
+                <h3>Get in Touch</h3>
+
+                <p>
+                    <span class="contact-icon">◎</span>
+                    <span>Serving Tanzania and international clients</span>
+                </p>
+
+                <a href="{% url 'contact' %}">
+                    <span class="contact-icon">↗</span>
+                    Request a project quotation
+                </a>
+
+                <p class="footer-note">
+                    Have an idea? Tell us what you want to build.
+                </p>
+
+                <a href="{% url 'contact' %}" class="footer-button">
+                    Contact Our Team
+                </a>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-inner">
+                <p>
+                    &copy; {% now "Y" %} Notwex Technologies.
+                    All rights reserved.
+                </p>
+
+                <div class="footer-legal">
+                    <a href="{% url 'contact' %}">Contact</a>
+                    <a href="#main-content">Back to top ↑</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+<style>
+
+    /* ======================================
+   START A PROJECT BUTTON
+====================================== */
+
+.hero-btn-primary {
+    cursor: pointer;
+}
+
+/* ======================================
+   PROJECT MODAL
+====================================== */
+
+.project-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.project-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Dark blurred background */
+
+.project-modal-overlay {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(3, 11, 20, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Popup container */
+
+.project-modal-content {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    max-width: 760px;
+    max-height: 90vh;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    padding: 35px;
+
+    background: #091725;
+    color: #F4F7FF;
+
+    border: 1px solid rgba(22, 124, 255, 0.35);
+    border-radius: 18px;
+
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+
+    transform: translateY(18px) scale(0.98);
+    transition: transform 0.25s ease;
+}
+
+.project-modal.is-open .project-modal-content {
+    transform: translateY(0) scale(1);
+}
+
+/* Close button */
+
+.project-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid #24384D;
+    border-radius: 50%;
+
+    background: #102235;
+    color: #F4F7FF;
+
+    font-size: 27px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.project-modal-close:hover {
+    background: #167CFF;
+    border-color: #167CFF;
+}
+
+/* Heading */
+
+.project-modal-heading {
+    margin-bottom: 27px;
+    padding-right: 25px;
+}
+
+.project-modal-label {
+    display: inline-block;
+    margin-bottom: 9px;
+
+    color: #167CFF;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.project-modal-heading h2 {
+    margin: 0 0 12px;
+
+    color: #F4F7FF;
+
+    font-size: clamp(25px, 4vw, 34px);
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.project-modal-heading p {
+    max-width: 570px;
+    margin: 0;
+
+    color: #A5B4C8;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Form layout */
+
+.project-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 19px;
+}
+
+.project-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    min-width: 0;
+}
+
+.project-form-group label {
+    color: #DCE6F5;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.project-form-group input,
+.project-form-group select,
+.project-form-group textarea {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    border: 1px solid #24384D;
+    border-radius: 8px;
+
+    background: #030B14;
+    color: #F4F7FF;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.project-form-group input,
+.project-form-group select {
+    min-height: 46px;
+}
+
+.project-form-group textarea {
+    min-height: 115px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.project-form-group input::placeholder,
+.project-form-group textarea::placeholder {
+    color: #71839A;
+}
+
+.project-form-group input:focus,
+.project-form-group select:focus,
+.project-form-group textarea:focus {
+    border-color: #167CFF;
+    box-shadow: 0 0 0 3px rgba(22, 124, 255, 0.14);
+}
+
+.project-form-group select option {
+    background: #091725;
+    color: #F4F7FF;
+}
+
+.project-form-full {
+    grid-column: 1 / -1;
+}
+
+/* Submit button */
+
+.project-submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    margin-top: 23px;
+    padding: 15px 20px;
+
+    border: 1px solid #167CFF;
+    border-radius: 8px;
+
+    background: #167CFF;
+    color: #FFFFFF;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.project-submit-btn:hover {
+    background: #0868E8;
+    box-shadow: 0 7px 24px rgba(22, 124, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.project-submit-btn:focus-visible,
+.project-modal-close:focus-visible {
+    outline: 2px solid #F4F7FF;
+    outline-offset: 3px;
+}
+
+.submit-arrow {
+    font-size: 18px;
+    transition: transform 0.2s ease;
+}
+
+.project-submit-btn:hover .submit-arrow {
+    transform: translate(3px, -3px);
+}
+
+/* Privacy note */
+
+.project-form-note {
+    margin: 13px 0 0;
+
+    color: #8FA2B9;
+
+    font-size: 11px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* Stop page scrolling while modal is open */
+
+body.project-modal-open {
+    overflow: hidden;
+}
+
+/* ======================================
+   RESPONSIVE DESIGN
+====================================== */
+
+@media (max-width: 600px) {
+    .project-modal {
+        padding: 10px;
+    }
+
+    .project-modal-content {
+        max-height: 94vh;
+        padding: 27px 18px;
+        border-radius: 13px;
+    }
+
+    .project-modal-close {
+        top: 12px;
+        right: 12px;
+        width: 34px;
+        height: 34px;
+    }
+
+    .project-modal-heading {
+        margin-bottom: 22px;
+        padding-right: 23px;
+    }
+
+    .project-modal-heading h2 {
+        font-size: 26px;
+    }
+
+    .project-modal-heading p {
+        font-size: 13px;
+    }
+
+    .project-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    .project-form-full {
+        grid-column: auto;
+    }
+
+    .project-form-group input,
+    .project-form-group select {
+        min-height: 45px;
+    }
+
+    .project-submit-btn {
+        padding: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-modal,
+    .project-modal-content,
+    .project-modal-close,
+    .project-submit-btn,
+    .submit-arrow {
+        transition: none;
+    }
+}
+
+</style>
+</html>
